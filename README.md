@@ -72,4 +72,4 @@ sentiment-app/
 | Rôle | Nom | Identifiant GitHub | Travail de la semaine 1 |
 | --- | --- | --- | --- |
 | Membre A | [Mohamed Taha Hakam] | [HAKAM08] | |
-| Membre B | [Mohamed Amine Chouaf] | [chouaf-mohamed-amine] | |
+| Membre B | [Chouaf Mohamed Amine] | [chouaf-mohamed-amine] | |
