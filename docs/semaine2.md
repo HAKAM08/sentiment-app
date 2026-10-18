@@ -1,1 +1,8 @@
-Le modèle a fait 7 erreurs sur les 58 avis de test, surtout sur les avis positifs qui ont été classés comme négatifs. Ces erreurs viennent du fait que certains avis contiennent des expressions contradictoires, ce qui rend leur sentiment difficile à identifier avec TF-IDF et la régression logistique. Pour améliorer les résultats, on pourrait utiliser des embeddings, comme on le verra en semaine 9, afin de mieux comprendre le sens et le contexte des phrases.
+
+# Semaine 2 — Entraînement et évaluation du modèle
+
+Le modèle commet 7 erreurs sur les 58 avis du jeu de test : 2 avis négatifs sont classés à tort comme positifs et 5 avis positifs sont classés à tort comme négatifs. Le rappel de la classe négative est de 0,931, ce qui est important pour le cas 3.
+
+Ces erreurs proviennent principalement des avis mitigés, car le modèle TF-IDF associé à la régression logistique ne tient pas suffisamment compte de l'ordre des mots ni des retournements de sens introduits par des expressions comme « mais finalement ».
+
+Pour réduire ces erreurs, il faudrait utiliser des représentations prenant en compte le contexte et l'ordre des mots, comme des embeddings ou des modèles de langage plus avancés, puis réévaluer les performances en privilégiant le rappel de la classe négative conformément au cahier des charges.
