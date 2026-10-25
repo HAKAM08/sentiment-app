@@ -46,7 +46,7 @@ app.add_middleware(
 def _classifier():
     clf = getattr(app.state, "classifier", None)
     if clf is None:
-        raise HTTPException(status_code=503, detail="Modèle non chargé")
+        raise HTTPException(status_code=503, detail="Modèle non disponible")
     return clf
 
 
@@ -72,11 +72,13 @@ async def predict(request: PredictRequest):
     clf = _classifier()
     try:
         result = clf.predict(request.text)
-    except ValueError as e:
-        raise HTTPException(status_code=422, detail=str(e))
+    
     except Exception:
         logger.exception("Erreur lors de la prédiction")
-        raise HTTPException(status_code=500, detail="Erreur interne du serveur")
+        raise HTTPException(
+            status_code=500,
+            detail="Erreur interne du serveur",
+        ) from None
     logger.info("predict: %r -> %s (%.2f)", request.text[:50], result["label"], result["score"])
     return result
 

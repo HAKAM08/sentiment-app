@@ -8,21 +8,31 @@ from pathlib import Path
 
 RACINE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(RACINE / "src"))
-from predict import MODELE, charger_modele, predict as _predict  # noqa: E402  (fonctions du TP2)
+
+from predict import charger_modele, predict as _predict  # noqa: E402
 
 
 class SentimentClassifier:
-    """Enveloppe du modèle TP2 avec l'interface attendue par l'API."""
+    """Enveloppe du modèle TP2 avec abstention si la confiance est faible."""
 
     model_name = "tfidf-logreg (TP2, models/sentiment.joblib)"
+    seuil_abstention = 0.60
 
     def __init__(self) -> None:
-        charger_modele()  # échoue immédiatement si le joblib manque : on ne démarre pas sans modèle
+        charger_modele()
 
     def predict(self, text: str) -> dict:
-        """Renvoie {'label': 'POSITIVE'|'NEGATIVE', 'score': float, 'text': aperçu}."""
-        r = _predict(text)  # lève ValueError si le texte est vide
-        return {"label": r["label"].upper(), "score": r["score"], "text": text[:100]}
+        """Renvoie le sentiment ou INDETERMINE si la confiance est insuffisante."""
+        r = _predict(text)
+        score = r["score"]
+
+        if score < self.seuil_abstention:
+            label = "INDETERMINE"
+        else:
+            label = r["label"].upper()
+
+        return {"label": label, "score": score, "text": text[:100]}
+
 
 
 def load_model() -> SentimentClassifier:

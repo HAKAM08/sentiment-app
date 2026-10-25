@@ -1,0 +1,27 @@
+text,attendu,difficulte,erreur_connue
+
+"Le produit fonctionne parfaitement et la livraison était rapide.",POSITIVE,,
+"Très déçu, le produit est arrivé cassé et inutilisable.",NEGATIVE,,
+"Excellent service, équipe agréable et réponse très rapide.",POSITIVE,,
+
+"Le rapport qualité-prix est excellent, je recommande.",POSITIVE,,
+
+"Ce n'est pas mauvais, mais ce n'est pas exceptionnel.",POSITIVE,négation et nuance,
+
+"Je pensais détester ce produit, mais finalement je l'adore.",POSITIVE,négation et retournement,
+
+"La qualité est bonne, même si le prix est un peu élevé.",POSITIVE,avis mitigé,
+"Le service client n'a pas résolu mon problème.",NEGATIVE,négation,
+"Pas mal pour le prix, mais la finition laisse à désirer.",POSITIVE,avis mitigé,
+"Le produit n'est pas inutilisable, mais il reste décevant.",NEGATIVE,double négation,
+"Rapide, pratique et simple à utiliser.",POSITIVE,,
+"Le fonctionnement est instable et le résultat est mauvais.",NEGATIVE,,
+"Je ne dirais pas que c'est excellent, mais je suis satisfait.",POSITIVE,négation et nuance,
+"Le produit semblait prometteur, pourtant il m'a déçu.",NEGATIVE,contraste,
+"Une expérience agréable, je rachèterai certainement.",POSITIVE,,
+"Je ne recommande pas ce produit à cause de ses défauts.",NEGATIVE,négation,
+
+"Le produit est excellent et dépasse mes attentes.",POSITIVE,,
+"Je regrette cet achat, la qualité est vraiment mauvaise.",NEGATIVE,,"Limite connue : erreur de classification du modèle"
+"Le service est acceptable, mais rien de plus.",NEGATIVE,avis mitigé,
+"Je ne pensais pas apprécier ce produit autant, il est génial.",POSITIVE,négation et retournement,
