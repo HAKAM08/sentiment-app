@@ -1,19 +1,12 @@
 
 """Interface Streamlit du TP5 : le modèle est interrogé via l'API FastAPI."""
 
-import sys
-from pathlib import Path
-
 import pandas as pd
 import streamlit as st
 
-RACINE = Path(__file__).resolve().parents[1]
-
-# Ensure the project root is importable when Streamlit launches the page.
-if str(RACINE) not in sys.path:
-    sys.path.insert(0, str(RACINE))
-
 from ui import client
+
+
 st.set_page_config(
     page_title="Analyse de sentiment",
     page_icon="💬",
@@ -22,7 +15,7 @@ st.set_page_config(
 
 st.title("Analyse de sentiment des avis clients")
 
-# La page utilise uniquement le client HTTP : elle ne charge pas le modèle.
+# L'interface communique avec le modèle uniquement via le client HTTP.
 session = client.creer_session()
 etat = client.sante(session)
 
@@ -62,7 +55,8 @@ with onglet_avis:
                 st.error(libelle)
             else:
                 libelle = client.VERDICTS.get(
-                    verdict, "Je ne sais pas : à faire vérifier par un humain"
+                    verdict,
+                    "Je ne sais pas : à faire vérifier par un humain",
                 )
                 st.warning(libelle)
                 st.info(
@@ -88,10 +82,13 @@ with onglet_fichier:
         try:
             donnees = pd.read_csv(fichier)
 
-            # Accepter les noms de colonnes courants.
             colonnes_possibles = ["text", "review", "avis", "texte"]
             colonne_avis = next(
-                (nom for nom in colonnes_possibles if nom in donnees.columns),
+                (
+                    nom
+                    for nom in colonnes_possibles
+                    if nom in donnees.columns
+                ),
                 None,
             )
 
@@ -103,7 +100,12 @@ with onglet_fichier:
             elif donnees.empty:
                 st.warning("Le fichier CSV ne contient aucun avis.")
             else:
-                textes = donnees[colonne_avis].fillna("").astype(str).tolist()
+                textes = (
+                    donnees[colonne_avis]
+                    .fillna("")
+                    .astype(str)
+                    .tolist()
+                )
                 reponses = client.predire_lot(session, textes)
 
                 resultats = donnees.copy()
@@ -134,7 +136,11 @@ with onglet_fichier:
                     mime="text/csv",
                 )
 
-        except (ValueError, pd.errors.ParserError, UnicodeDecodeError) as erreur:
+        except (
+            ValueError,
+            pd.errors.ParserError,
+            UnicodeDecodeError,
+        ) as erreur:
             st.error(f"Impossible de lire le fichier CSV : {erreur}")
 
 with onglet_aide:
