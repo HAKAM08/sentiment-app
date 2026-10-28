@@ -50,15 +50,25 @@ def predire(session: httpx.Client, texte: str) -> Reponse:
         r = session.post("/predict", json={"text": texte})
     except httpx.TransportError:
         return Reponse(False, message=INJOIGNABLE)
+
     if r.status_code == 200:
         corps = r.json()
-        return Reponse(True, label=corps["label"], score=corps["score"])
+        return Reponse(
+            True,
+            label=corps["label"],
+            score=corps["score"],
+        )
+
     if r.status_code == 422:
         return Reponse(False, message=REFUS)
+
     if r.status_code == 503:
         return Reponse(False, message=SANS_MODELE)
-    return Reponse(False, message=f"Erreur interne de l'API ({r.status_code}).")
 
+    return Reponse(
+        False,
+        message=f"Erreur interne de l'API ({r.status_code}): {r.text}",
+    )
 
 def predire_lot(session: httpx.Client, textes: list[str]) -> list[Reponse]:
     return [predire(session, texte) for texte in textes]
