@@ -53,6 +53,23 @@ def test_api_injoignable():
 
 
 def test_lot_et_resume(session):
-    reponses = client.predire_lot(session, ["Livraison rapide, produit conforme, très satisfait",
-                                            "Produit cassé et service injoignable, à fuir", "   "])
-    assert client.resumer(reponses) == {"NEGATIVE": 1, "POSITIVE": 1, "REFUS OU ERREUR": 1}
+    reponses = client.predire_lot(session, [
+        "Livraison rapide, produit conforme, très satisfait",
+        "Produit cassé et service injoignable, à fuir",
+        "   ",
+    ])
+
+    for i, reponse in enumerate(reponses, start=1):
+        print(
+            f"Réponse {i}: ok={reponse.ok}, "
+            f"label={reponse.label}, message={reponse.message}"
+        )
+
+    resume = client.resumer(reponses)
+    print("Résumé obtenu :", resume)
+
+    assert resume == {
+        "NEGATIVE": 1,
+        "POSITIVE": 1,
+        "REFUS OU ERREUR": 1,
+    }
