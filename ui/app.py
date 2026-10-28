@@ -1,15 +1,19 @@
 
 """Interface Streamlit du TP5 : le modèle est interrogé via l'API FastAPI."""
 
+import sys
 from pathlib import Path
 
 import pandas as pd
 import streamlit as st
 
-import client
-
 RACINE = Path(__file__).resolve().parents[1]
 
+# Ensure the project root is importable when Streamlit launches the page.
+if str(RACINE) not in sys.path:
+    sys.path.insert(0, str(RACINE))
+
+from ui import client
 st.set_page_config(
     page_title="Analyse de sentiment",
     page_icon="💬",
@@ -22,11 +26,10 @@ st.title("Analyse de sentiment des avis clients")
 session = client.creer_session()
 etat = client.sante(session)
 
-if not etat.ok:
+if etat.ok:
+    st.caption(f"API prête : {etat.message}")
+else:
     st.error(etat.message)
-    st.stop()
-
-st.caption(f"API prête : {etat.message}")
 
 onglet_avis, onglet_fichier, onglet_aide = st.tabs(
     ["Un avis", "Un fichier d'avis", "Comment ça marche"]
