@@ -20,7 +20,7 @@ jobs:
         run: |
           python -m venv .venv
           . .venv/bin/activate
-          pip install pandas scikit-learn "fastapi==0.115.*" "httpx==0.27.*" "uvicorn==0.30.*" "streamlit==1.39.*"
+          pip install pandas "scikit-learn==1.5.*" "fastapi==0.115.*" "httpx==0.27.*" "uvicorn==0.30.*" "streamlit==1.39.*"
           pip install -r requirements-dev.txt
 
       - name: Diagnostic
@@ -37,3 +37,8 @@ jobs:
 
       - name: Tests et couverture
         run: . .venv/bin/activate && pytest -q -s --cov=api --cov-report=term-missing --cov-fail-under=95
+      - name: Roue installée hors du dépôt (TP6)
+        run: |
+          . .venv/bin/activate && python -m build --wheel
+          python -m venv /tmp/roue && /tmp/roue/bin/pip install dist/*.whl
+          cd /tmp && SENTIMENT_MODELE="$GITHUB_WORKSPACE/models/sentiment.joblib" /tmp/roue/bin/sentiment predict "Livraison rapide, produit conforme, très satisfait"

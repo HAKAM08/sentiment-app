@@ -3,13 +3,8 @@
 L'API n'entraîne rien et ne connaît pas scikit-learn : elle appelle la fonction
 predict() de src/predict.py, qui charge models/sentiment.joblib une seule fois.
 """
-import sys
-from pathlib import Path
-
-RACINE = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(RACINE / "src"))
-
-from predict import charger_modele, predict as _predict  # noqa: E402
+from sentiment_app.predict import charger_modele
+from sentiment_app.predict import predict as _predict
 
 
 class SentimentClassifier:
